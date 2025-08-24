@@ -15,23 +15,21 @@ services:
 
   backend:
     build:
-      context: ./Backend
-      dockerfile: Dockerfile
-    working_dir: /app
+      context: ./Backend               
+      dockerfile: Dockerfile           
     ports:
       - "20651:20651"
     volumes:
       - ./Backend:/app
+      - /app/node_modules
     env_file:
       - ./Backend/.env
     depends_on:
       - db
-    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:20651"
+    command: sh -c "npm install && node server.js"
 
   db:
     image: postgres:16
-    container_name: postgres_db
-    restart: always
     environment:
       POSTGRES_DB: appdb
       POSTGRES_USER: appuser
