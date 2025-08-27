@@ -15,10 +15,10 @@ services:
 
   backend:
     build:
-      context: ./Backend               
-      dockerfile: Dockerfile           
-    ports:
-      - "20651:20651"
+      context: ./Backend
+      dockerfile: Dockerfile
+    expose:
+      - "20651"
     volumes:
       - ./Backend:/app
       - /app/node_modules
@@ -34,8 +34,8 @@ services:
       POSTGRES_DB: appdb
       POSTGRES_USER: appuser
       POSTGRES_PASSWORD: apppass
-    ports:
-      - "5432:5432"
+    expose:
+      - "5432"
     volumes:
       - db_data:/var/lib/postgresql/data
 
