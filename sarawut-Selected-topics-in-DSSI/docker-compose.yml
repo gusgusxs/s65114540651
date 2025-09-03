@@ -1,13 +1,11 @@
-version: "3.9"
-
 services:
   frontend:
     build:
       context: .
       dockerfile: Dockerfile
     working_dir: /app
-    ports:
-      - "10651:10651"
+    expose:
+      - "10651"
     volumes:
       - ./Frontend:/app
       - /app/node_modules
@@ -39,5 +37,17 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
 
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      # [แก้ไข] เปลี่ยน port เป็น 10651
+      - "10651:80"
+    depends_on:
+      - frontend
+      - backend
+
 volumes:
   db_data:
+
